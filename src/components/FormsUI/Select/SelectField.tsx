@@ -6,6 +6,7 @@ type OptionsType = Record<string, string>;
 type SelectFieldProps = {
   name: string;
   options: OptionsType;
+  label: string;
 };
 
 const SelectField: React.FC<SelectFieldProps> = ({
