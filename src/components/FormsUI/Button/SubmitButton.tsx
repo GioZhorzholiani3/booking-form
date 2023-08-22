@@ -2,10 +2,14 @@ import React from "react";
 import { Button } from "@mui/material";
 import { useFormikContext } from "formik";
 
-const SubmitButton = ({ children, ...otherProps }) => {
+type submitButtonProps = {
+  children: React.ReactNode;
+};
+
+const SubmitButton: React.FC<submitButtonProps> = ({ children }) => {
   const { submitForm } = useFormikContext();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     submitForm();
   };

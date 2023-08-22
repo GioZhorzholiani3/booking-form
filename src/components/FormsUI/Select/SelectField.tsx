@@ -1,14 +1,33 @@
 import { TextField, MenuItem } from "@mui/material";
 import { useField, useFormikContext } from "formik";
-const SelectField = ({ name, options, ...otherProps }) => {
+
+type OptionsType = Record<string, string>;
+
+type SelectFieldProps = {
+  name: string;
+  options: OptionsType;
+};
+
+const SelectField: React.FC<SelectFieldProps> = ({
+  name,
+  options,
+  ...otherProps
+}) => {
   const { setFieldValue } = useFormikContext();
 
   const [field, meta] = useField(name);
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setFieldValue(name, value);
   };
+
+  const dynamicProps = {
+    ...(meta && meta.touched && meta.error
+      ? { error: true, helperText: meta.error }
+      : {}),
+  };
+
   const configSelect = {
     ...field,
     ...otherProps,
@@ -16,6 +35,7 @@ const SelectField = ({ name, options, ...otherProps }) => {
     variant: "outlined" as const,
     fullWidth: true,
     onChange: handleChange,
+    ...dynamicProps,
   };
 
   if (meta && meta.touched && meta.error) {

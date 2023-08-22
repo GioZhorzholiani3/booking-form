@@ -2,8 +2,18 @@ import { TextField } from "@mui/material";
 
 import { useField } from "formik";
 
-const DatePicker = ({ name, ...otherProps }) => {
+type DatePickerProps = {
+  name: string;
+};
+
+const DatePicker: React.FC<DatePickerProps> = ({ name, ...otherProps }) => {
   const [field, meta] = useField(name);
+
+  const dynamicProps = {
+    ...(meta && meta.touched && meta.error
+      ? { error: true, helperText: meta.error }
+      : {}),
+  };
 
   const configDateTimePicker = {
     ...field,
@@ -14,6 +24,7 @@ const DatePicker = ({ name, ...otherProps }) => {
     inputLabelProps: {
       shrink: true,
     },
+    ...dynamicProps,
   };
 
   if (meta && meta.touched && meta.error) {

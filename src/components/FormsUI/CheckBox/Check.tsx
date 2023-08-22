@@ -8,11 +8,22 @@ import {
 } from "@mui/material";
 import { useField, useFormikContext } from "formik";
 
-const Check = ({ name, label, legend, ...otherProps }) => {
+type checkProps = {
+  name: string;
+  label: string;
+  legend: string;
+};
+
+const Check: React.FC<checkProps> = ({
+  name,
+  label,
+  legend,
+  ...otherProps
+}) => {
   const [field, meta] = useField(name);
   const { setFieldValue } = useFormikContext();
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = event.target;
     setFieldValue(name, checked);
   };
@@ -24,7 +35,12 @@ const Check = ({ name, label, legend, ...otherProps }) => {
     onChange: handleChange,
   };
 
-  const configFormControl = {};
+  const configFormControl: {
+    error?: boolean;
+    helperText?: string;
+  } = {};
+
+  // const configFormControl = {};
   if (meta && meta.touched && meta.error) {
     configFormControl.error = true;
     configFormControl.helperText = meta.error;
